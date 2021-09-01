@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cornellana</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<link rel="stylesheet" type="text/css" href="./Qgis2threejs.css">
+<script src="./threejs/three.min.js"></script>
+<script src="./threejs/OrbitControls.js"></script>
+<script src="./Qgis2threejs.js"></script>
+</head>
+<body>
+<div id="view">
+  <div id="labels"></div>
+  <div id="northarrow"></div>
+  <div id="navigation"></div>
+</div>
+
+<!-- popup -->
+<div id="popup">
+  <div id="closebtn">&times;</div>
+  <div id="popupbar"></div>
+  <div id="popupbody">
+    <div id="popupcontent"></div>
+
+    <!-- query result -->
+   <div id="queryresult">
+      <table id="qr_layername_table">
+      <tr><center><FONT FACE="verdana"><b>Viñedo Cornellana</b><br>D.O. Cachapoal</font></center></tr>
+      </table>
+
+      <table id="qr_coords_table">
+        <caption>Clicked coordinates</caption>
+        <tr><td id="qr_coords"></td></tr>
+      </table>
+
+      <!-- camera actions -->
+      <div class="action-btn action-zoom" onclick="app.cameraAction.zoomIn(); app.closePopup();">Zoom aquí</div>
+      <div class="action-btn action-move" onclick="app.cameraAction.move(); app.closePopup();">Move here</div>
+      
+
+      <!-- attributes -->
+      <table id="qr_attrs_table">
+        <caption><h2><FONT FACE="calibri">Descripción</FONT></h2></caption>
+      </table>
+    </div>
+
+    <!-- page info -->
+    <div id="pageinfo">
+      
+
+      <h1><center>Ayuda</center></h1>
+      <table id="Ayuda">
+        <tr><td colspan="2" class="star"><b>Mouse</b></td></tr>
+        <tr><td>Click izquierdo + Mover</td><td>Orbitar</td></tr>
+        <tr><td>Rueda del mouse</td><td>Zoom</td></tr>
+        <tr><td>Click derecho + Mover</td><td>Panorámica</td></tr>
+
+        <tr><td colspan="2" class="star"><b>Teclas</b></td></tr>
+        <tr><td>Teclas de dirección</td><td>Mover horizontalmente</td></tr>
+        <tr><td>Shift + Teclas de dirección</td><td>Orbitar</td></tr>
+        <tr><td>Ctrl + Teclas de dirección</td><td>Rotar</td></tr>
+        <tr><td>Shift + Ctrl + Arriba / Abajo</td><td>Acercar/Alejar</td></tr>
+        <tr><td>R</td><td>Iniciar /Detener animación de orbita</td></tr>
+        <tr><td>Shift + R</td><td>Resetear posición de cámara</td></tr>
+        <tr><td>Shift + S</td><td>Guardar Imagen</td></tr>
+      </table>
+
+
+      <center><h1>Créditos</h1></center>
+      <div id="about">
+        <center><font size="1">This page was made with <a href="https://www.qgis.org/" target="_blank">QGIS</a> and <a href="https://github.com/minorua/Qgis2threejs" target="_blank">Qgis2threejs</a> plugin (version 2.6).
+        <div>Powered by <a href="https://threejs.org/" target="_blank">three.js</a></center></font><p>
+	<div><center><img style="border-radius: 25px;" src="logo.png" alt="" width="100" height"100"></center></div>
+        <span id="lib_proj4js"> and <a href="https://trac.osgeo.org/proj4js/" target="_blank">Proj4js</a></span></div><br><center><b>Contenido</b>: Rodrigo Ortega<br><b>Mapping</b>: Geógrafo Nelson Sánchez</center>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- progress bar -->
+<div id="progress"><div id="bar"></div></div>
+
+<!-- nombre viña -->
+
+<div id="instrucciones"><p> </p><tr><td><center><b><FONT FACE="verdana">Viñedo Cornellana</font></b></center>
+<center><FONT FACE="verdana"><font size="2">D.O. Cachapoal</font></font></center></tr><p> </p>
+<center><tr><img style="border-radius: 5px;" src="vina2.png" alt="" width="165" height="55"><tr>
+
+
+</td></div>
+
+<!-- header and footer -->
+
+<!--<div id="footer"><span id="infobtn"><img src="logo.png" alt="" width="100" height="100"></span> </div>-->
+<div id="footer2"><span id="infobtn"><img src="logo.png" alt="" width="110" height="110"></span></div>
+
+<!-- letra abajo -->
+<div id="letra">
+<font size="1">Click en el logo de Kalycatas para ver instrucciones de uso del visor 3D interactivo.</font>
+</div>
+
+<script>
+Q3D.Config.allVisible = true;
+Q3D.Config.coord.visible = false;
+Q3D.Config.viewpoint = {lookAt:{x:3.2589062215567655,y:2.905092934430876,z:-3.3587646093636255e-17},pos:{x:-66.3458688899608,y:-59.428277963334004,z:86.9474045282331}};
+Q3D.Config.localMode = true;
+Q3D.Config.northArrow.visible = true;
+Q3D.Config.northArrow.color = 0xd1bb2b;
+if (typeof proj4 === "undefined") document.getElementById("lib_proj4js").style.display = "none";
+
+var container = document.getElementById("view"),
+    app = Q3D.application;
+
+app.init(container);       // initialize viewer
+
+// load the scene
+app.loadSceneFile("./data/V_Cornellana/scene.js", function (scene) {
+  // scene file has been loaded
+  app.start();
+}, function (scene) {
+  // all relevant files have been loaded
+
+});
+
+document.getElementById("infobtn").onclick = app.showInfo;
+</script>
+</body>
+</html>
